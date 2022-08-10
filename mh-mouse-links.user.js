@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         🐭️ MouseHunt - Mouse Links
-// @version      1.0.0
+// @version      1.0.1
 // @description  Add links to the MouseHunt wiki & MHDB for mice.
 // @license      MIT
 // @author       bradp
@@ -11,7 +11,7 @@
 // @run-at	     document-end
 // ==/UserScript==
 
-(function() {
+(function () {
 	'use strict';
 
 	const addStyles = () => {
@@ -33,7 +33,7 @@
 		}`;
 
 		document.head.appendChild(style);
-	}
+	};
 
 	/**
 	 * Return an anchor element with the given text and href.
@@ -49,12 +49,11 @@
 	};
 
 	const addLinks = (mouse) => {
-		console.log(mouse);
-		let links = makeLink('Wiki', `https://mhwiki.hitgrab.com/wiki/index.php/${mouse.name}`);
-		links += makeLink('mhdb', `https://dbgames.info/mousehunt/mice/${mouse.name}`);
-		let title = document.querySelector('.mouseView-title');
+		let links = makeLink('Wiki', `https://mhwiki.hitgrab.com/wiki/index.php/${ mouse.name }`);
+		links += makeLink('mhdb', `https://dbgames.info/mousehunt/mice/${ mouse.name }`);
+		const title = document.querySelector('.mouseView-title');
 		title.insertAdjacentHTML('beforeend', links);
-	}
+	};
 
 	$(document).ready(function () { // eslint-disable-line no-undef
 		addStyles();
@@ -62,10 +61,9 @@
 
 	$(document).ajaxComplete(function (_event, _xhr, options) { // eslint-disable-line no-undef
 		if (options.url.indexOf('managers/ajax/mice/getstat.php') !== -1) {
-			if(_xhr.responseJSON.mice && _xhr.responseJSON.mice.length > 0) {
-				addLinks(_xhr.responseJSON.mice[0]);
+			if (_xhr.responseJSON.mice && _xhr.responseJSON.mice.length > 0) {
+				addLinks(_xhr.responseJSON.mice[ 0 ]);
 			}
 		}
 	});
-
-})();
+}());
