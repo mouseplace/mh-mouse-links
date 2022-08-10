@@ -1,0 +1,14 @@
+{
+  "name": "mh-mouse-links",
+  "version": "1.0.0",
+  "description": "",
+  "main": "mh-mouse-links.user.js",
+  "scripts": {
+    "lint": "npx eslint *.js -c .eslintrc.json"
+  },
+  "author": "Brad Parbs <brad@bradparbs.com> (https://bradparbs.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "eslint": "^8.16.0"
+  }
+}
