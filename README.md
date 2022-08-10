@@ -1,2 +1,3 @@
 # mh-mouse-links
-Userscript to add links to the MouseHunt wiki &amp; MHDB for mice for [MouseHunt](https://mousehuntgame.com).
+
+A Userscript for [MouseHunt](https://mousehuntgame.com) to add links to the MouseHunt wiki &amp; MHDB to mice.
