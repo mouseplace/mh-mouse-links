@@ -8,7 +8,7 @@
 // @match        https://www.mousehuntgame.com/*
 // @icon         https://brrad.com/mouse.png
 // @grant        none
-// @run-at	     document-end
+// @run-at       document-end
 // ==/UserScript==
 
 (function () {
