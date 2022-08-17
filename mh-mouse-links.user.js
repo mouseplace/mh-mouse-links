@@ -110,8 +110,8 @@
 		const title = document.querySelector('.mouseView-title');
 		title.insertAdjacentHTML(
 			'beforeend',
-			makeLink('Wiki', `https://mhwiki.hitgrab.com/wiki/index.php/${title.innerText}`) +
-			makeLink('mhdb', `https://dbgames.info/mousehunt/mice/${title.innerText}`)
+			makeLink('Wiki', `https://mhwiki.hitgrab.com/wiki/index.php/${ title.innerText }`) +
+			makeLink('mhdb', `https://dbgames.info/mousehunt/mice/${ title.innerText }`)
 		);
 	};
 
