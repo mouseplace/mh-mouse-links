@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         🐭️ MouseHunt - Mouse Links
-// @version      1.1.0
+// @version      1.1.1
 // @description  Add links to the MouseHunt wiki & MHDB for mice.
 // @license      MIT
 // @author       bradp
@@ -108,6 +108,11 @@
 	 */
 	const addLinks = () => {
 		const title = document.querySelector('.mouseView-title');
+
+		if (! title) {
+			return;
+		}
+
 		title.insertAdjacentHTML(
 			'beforeend',
 			makeLink('Wiki', `https://mhwiki.hitgrab.com/wiki/index.php/${ title.innerText }`) +
