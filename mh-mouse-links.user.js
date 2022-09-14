@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         🐭️ MouseHunt - Mouse Links
-// @version      1.1.1
+// @version      1.2.1
 // @description  Add links to the MouseHunt wiki & MHDB for mice.
 // @license      MIT
 // @author       bradp
@@ -36,22 +36,31 @@
 	/**
 	 * Do something when ajax requests are completed.
 	 *
-	 * @param {Function} callback The callback to call when an ajax request is completed.
-	 * @param {string}   url      The url to match. If not provided, all ajax requests will be matched.
+	 * @param {Function} callback    The callback to call when an ajax request is completed.
+	 * @param {string}   url         The url to match. If not provided, all ajax requests will be matched.
+	 * @param {boolean}  skipSuccess Skip the success check.
 	 */
-	const onAjaxRequest = (callback, url) => {
+	const onAjaxRequest = (callback, url = null, skipSuccess = false) => {
 		const req = XMLHttpRequest.prototype.open;
 		XMLHttpRequest.prototype.open = function () {
 			this.addEventListener('load', function () {
-				const response = JSON.parse(this.responseText);
-				if (response.success) {
-					if (! url) {
-						callback(this);
+				if (this.responseText) {
+					let response = {};
+					try {
+						response = JSON.parse(this.responseText);
+					} catch (e) {
 						return;
 					}
 
-					if (this.responseURL.indexOf(url) !== -1) {
-						callback(this);
+					if (response.success || skipSuccess) {
+						if (! url) {
+							callback(this);
+							return;
+						}
+
+						if (this.responseURL.indexOf(url) !== -1) {
+							callback(this);
+						}
 					}
 				}
 			});
@@ -100,7 +109,20 @@
 	 */
 	const makeLink = (text, href) => {
 		href = href.replace(/\s/g, '_');
-		return `<a href="${ href }" target="_mouse" class="mousehuntActionButton tiny mhMouseLinks"><span>${ text }</span></a>`;
+		return `<a href="${ href }" target="_mouse" class="mousehuntActionButton tiny"><span>${ text }</span></a>`;
+	};
+
+	/**
+	 * Get the markup for the mouse links.
+	 *
+	 * @param {string} name The name of the mouse.
+	 *
+	 * @return {string} The markup for the mouse links.
+	 */
+	const getLinkMarkup = (name) => {
+		return makeLink('MHCT Attraction Rate', `https://www.mhct.win/attractions.php?mouse_name=${ name }`) +
+			makeLink('Wiki', `https://mhwiki.hitgrab.com/wiki/index.php/${ name }`) +
+			makeLink('mhdb', `https://dbgames.info/mousehunt/mice/${ name }`);
 	};
 
 	/**
@@ -108,16 +130,51 @@
 	 */
 	const addLinks = () => {
 		const title = document.querySelector('.mouseView-title');
-
 		if (! title) {
 			return;
 		}
 
-		title.insertAdjacentHTML(
-			'beforeend',
-			makeLink('Wiki', `https://mhwiki.hitgrab.com/wiki/index.php/${ title.innerText }`) +
-			makeLink('mhdb', `https://dbgames.info/mousehunt/mice/${ title.innerText }`)
-		);
+		const div = document.createElement('div');
+		div.classList.add('mh-mouse-links');
+		div.innerHTML = getLinkMarkup(title.innerText);
+		title.parentNode.insertBefore(div, title);
+
+		// Move the values into the main text.
+		const values = document.querySelector('.mouseView-values');
+		const desc = document.querySelector('.mouseView-descriptionContainer');
+		if (values && desc) {
+			// insert as first child of desc
+			desc.insertBefore(values, desc.firstChild);
+		}
+	};
+
+	/**
+	 * Add links to the mouse details on the map.
+	 */
+	const addMapLinks = () => {
+		const overlayClasses = document.getElementById('overlayPopup').classList;
+		if (! overlayClasses.contains('treasureMapPopup')) {
+			return;
+		}
+
+		const mouseIcon = document.querySelectorAll('.treasureMapView-goals-group-goal');
+		if (mouseIcon.length === 0) {
+			setTimeout(addMapLinks, 500);
+		}
+
+		mouseIcon.forEach((mouse) => {
+			mouse.addEventListener('click', () => {
+				const title = document.querySelector('.treasureMapView-highlight-name');
+				if (! title) {
+					return;
+				}
+
+				const div = document.createElement('div');
+				div.classList.add('mh-mouse-links-map');
+				div.innerHTML = getLinkMarkup(title.innerText);
+				title.parentNode.insertBefore(div, title.nextSibling);
+			});
+		});
 	};
 
 	addStyles(`
@@ -125,19 +182,41 @@
 		height: 26px;
 	}
 
-	.mhMouseLinks {
-		margin-left: 10px;
-	}
-
 	.mouseView-values {
-		font-size: .9em;
+		float: none;
+		padding: 5px 0 10px 0;
+		line-height: unset;
+		padding-bottom: 8px;
+		font-size: 0.9em;
 	}
 
 	.mouseView-title {
 		font-size: 1.2em;
 		line-height: 24px;
+	}
+
+	.mh-mouse-links {
+		display: inline-block;
+		float: right;
+		margin-right: 15px;
+	}
+
+	.mh-mouse-links-map {
+		padding-bottom: 5px;
+	}
+
+	.mh-mouse-links a {
+		margin-right: 10px;
+	}
+
+	.mh-mouse-links-map a {
+		margin: 10px 10px 10px 0;
+	}
+	.mh-mouse-links-map .mousehuntActionButton.tiny {
+		margin: 3px;
 	}`);
 
 	onAjaxRequest(addLinks, 'managers/ajax/mice/getstat.php');
 	onOverlayChange({ show: addLinks });
+	onOverlayChange({ show: addMapLinks });
 }());
