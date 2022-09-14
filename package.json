@@ -1,6 +1,6 @@
 {
   "name": "mh-mouse-links",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "",
   "main": "mh-mouse-links.user.js",
   "scripts": {

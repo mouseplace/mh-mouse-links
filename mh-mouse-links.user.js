@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         🐭️ MouseHunt - Mouse Links
-// @version      1.2.1
+// @version      1.2.2
 // @description  Add links to the MouseHunt wiki & MHDB for mice.
 // @license      MIT
 // @author       bradp
@@ -121,8 +121,8 @@
 	 */
 	const getLinkMarkup = (name) => {
 		return makeLink('MHCT Attraction Rate', `https://www.mhct.win/attractions.php?mouse_name=${ name }`) +
-			makeLink('Wiki', `https://mhwiki.hitgrab.com/wiki/index.php/${ name }`) +
-			makeLink('mhdb', `https://dbgames.info/mousehunt/mice/${ name }`);
+			makeLink('Wiki', `https://mhwiki.hitgrab.com/wiki/index.php/${ name }_Mouse`) +
+			makeLink('mhdb', `https://dbgames.info/mousehunt/mice/${ name }_Mouse`);
 	};
 
 	/**
