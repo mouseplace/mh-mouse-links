@@ -162,7 +162,11 @@
 			return;
 		}
 
-		// get the map view classes and check for scavenger hunt
+		const mouseIcon = document.querySelectorAll('.treasureMapView-goals-group-goal');
+		if (mouseIcon.length === 0) {
+			setTimeout(addMapLinks, 500);
+		}
+
 		const mapViewClasses = document.querySelector('.treasureMapView.treasure');
 		if (! mapViewClasses) {
 			return;
@@ -170,11 +174,6 @@
 
 		if (mapViewClasses.classList.value.indexOf('scavenger_hunt') !== -1) {
 			return;
-		}
-
-		const mouseIcon = document.querySelectorAll('.treasureMapView-goals-group-goal');
-		if (mouseIcon.length === 0) {
-			setTimeout(addMapLinks, 500);
 		}
 
 		mouseIcon.forEach((mouse) => {
