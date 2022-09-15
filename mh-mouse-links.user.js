@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         🐭️ MouseHunt - Mouse Links
-// @version      1.2.3
+// @version      1.2.4
 // @description  Add links to the MouseHunt wiki & MHDB for mice.
 // @license      MIT
 // @author       bradp
@@ -159,6 +159,16 @@
 	const addMapLinks = () => {
 		const overlayClasses = document.getElementById('overlayPopup').classList;
 		if (! overlayClasses.contains('treasureMapPopup')) {
+			return;
+		}
+
+		// get the map view classes and check for scavenger hunt
+		const mapViewClasses = document.querySelector('.treasureMapView.treasure');
+		if (! mapViewClasses) {
+			return;
+		}
+
+		if (mapViewClasses.classList.value.indexOf('scavenger_hunt') !== -1) {
 			return;
 		}
 
