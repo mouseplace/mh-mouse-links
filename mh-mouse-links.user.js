@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         🐭️ MouseHunt - Mouse Links
-// @version      1.2.4
+// @version      1.2.5
 // @description  Add links to the MouseHunt wiki & MHDB for mice.
 // @license      MIT
 // @author       bradp
@@ -102,13 +102,19 @@
 	/**
 	 * Return an anchor element with the given text and href.
 	 *
-	 * @param {string} text Text to use for link.
-	 * @param {string} href URL to link to.
+	 * @param {string}  text          Text to use for link.
+	 * @param {string}  href          URL to link to.
+	 * @param {boolean} encodeAsSpace Encode spaces as %20.
 	 *
 	 * @return {string} HTML for link.
 	 */
-	const makeLink = (text, href) => {
-		href = href.replace(/\s/g, '_');
+	const makeLink = (text, href, encodeAsSpace) => {
+		if (encodeAsSpace) {
+			href = href.replace(/_/g, '%20');
+		} else {
+			href = href.replace(/\s/g, '_');
+		}
+
 		return `<a href="${ href }" target="_mouse" class="mousehuntActionButton tiny"><span>${ text }</span></a>`;
 	};
 
@@ -120,7 +126,7 @@
 	 * @return {string} The markup for the mouse links.
 	 */
 	const getLinkMarkup = (name) => {
-		return makeLink('MHCT Attraction Rate', `https://www.mhct.win/attractions.php?mouse_name=${ name }`) +
+		return makeLink('MHCT Attraction Rate', `https://www.mhct.win/attractions.php?mouse_name=${ name }`, true) +
 			makeLink('Wiki', `https://mhwiki.hitgrab.com/wiki/index.php/${ name }_Mouse`) +
 			makeLink('mhdb', `https://dbgames.info/mousehunt/mice/${ name }_Mouse`);
 	};
