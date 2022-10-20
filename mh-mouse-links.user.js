@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         🐭️ MouseHunt - Mouse Links
-// @version      1.2.6
+// @version      1.2.7
 // @description  Add links to the MouseHunt wiki & MHDB for mice.
 // @license      MIT
 // @author       bradp
@@ -90,8 +90,14 @@
 				callbacks.hide();
 			}
 		});
+
+		const overlay = document.getElementById('overlayBg');
+		if (! overlay) {
+			return;
+		}
+
 		observer.observe(
-			document.getElementById('overlayBg'),
+			overlay,
 			{
 				attributes: true,
 				attributeFilter: ['class']
