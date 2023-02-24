@@ -11,7 +11,7 @@
 // @run-at       document-end
 // ==/UserScript==
 
-(function () {
+((function () {
 	'use strict';
 
 	/**
@@ -247,4 +247,4 @@
 	onAjaxRequest(addLinks, 'managers/ajax/mice/getstat.php');
 	onOverlayChange({ show: addLinks });
 	onOverlayChange({ show: addMapLinks });
-}());
+})());
