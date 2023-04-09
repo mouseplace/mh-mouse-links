@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         🐭️ MouseHunt - Mouse Links
-// @version      1.3.1
+// @version      1.3.2
 // @description  Add links to the MouseHunt wiki & MHDB for mice.
 // @license      MIT
 // @author       bradp
@@ -121,10 +121,10 @@
 
   .mouseView-values {
     float: none;
-    padding: 5px 0 10px 0;
-    line-height: unset;
+    padding: 5px 0 10px;
     padding-bottom: 8px;
     font-size: 0.9em;
+    line-height: unset;
   }
 
   .mouseView-title {
@@ -152,7 +152,8 @@
 
   .mh-mouse-links-map .mousehuntActionButton.tiny {
     margin: 3px;
-  }`);
+  }
+  `);
 
   onAjaxRequest(addLinks, 'managers/ajax/mice/getstat.php');
   onOverlayChange({ show: addLinks });
