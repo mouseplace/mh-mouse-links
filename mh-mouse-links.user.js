@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         🐭️ MouseHunt - Mouse Links
-// @version      1.3.3
+// @version      1.4.0
 // @description  Add links to the MouseHunt wiki & MHDB for mice.
 // @license      MIT
 // @author       bradp
@@ -10,6 +10,7 @@
 // @grant        none
 // @run-at       document-end
 // @require      https://cdn.jsdelivr.net/npm/mousehunt-utils@1.5.2/mousehunt-utils.js
+// @require      https://cdn.jsdelivr.net/npm/script-migration@1.1.1
 // ==/UserScript==
 
 ((function () {
@@ -158,4 +159,6 @@
   onAjaxRequest(addLinks, 'managers/ajax/mice/getstat.php');
   onOverlayChange({ show: addLinks });
   onOverlayChange({ show: addMapLinks });
+
+  migrateUserscript('🐭️ MouseHunt - Mouse Links', 'https://greasyfork.org/en/scripts/449332-mousehunt-mouse-links');
 })());
